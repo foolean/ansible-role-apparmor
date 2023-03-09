@@ -32,6 +32,7 @@ Ansible role to manage apparmor
 ## Supported operating systems
 
     * Debian (11)
+    * Raspbian (11)
 
 
 ## Compliance

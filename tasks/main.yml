@@ -29,6 +29,20 @@
         mode: '0644'
       notify:
         - AppArmor update grub
+      when:
+        - ansible_lsb.id|lower != "raspbian"
+
+    - name: CIS | Ensure AppArmor is enabled in the bootloader configuration
+      become: true
+      ansible.builtin.replace:
+        path: "/boot/cmdline.txt"
+        regexp: '^([\w](?!.*\b{{ item }}\b).*)$'
+        replace: '\1 {{ item }}'
+      with_items:
+        - "apparmor=1"
+        - "security=apparmor"
+      when:
+        - ansible_lsb.id|lower == "raspbian"
 
     # Flush any handlers that we might have called
     - name: Flush handlers
